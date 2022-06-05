@@ -1,6 +1,10 @@
 package com.javarush.island.Carnivores;
 
-import com.javarush.island.Animal;
+import com.javarush.island.abstractClasses.Animal;
+import com.javarush.island.abstractClasses.Carnivores;
 
-public class Fox extends Animal {
+public class Fox extends Carnivores {
+    protected Fox(int x, int y) {
+        super(x, y);
+    }
 }

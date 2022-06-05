@@ -1,6 +1,10 @@
 package com.javarush.island.Herbivores;
 
-import com.javarush.island.Animal;
+import com.javarush.island.abstractClasses.Animal;
+import com.javarush.island.abstractClasses.Herbivores;
 
-public class Duck extends Animal {
+public class Duck extends Herbivores {
+    protected Duck(int x, int y) {
+        super(x, y);
+    }
 }

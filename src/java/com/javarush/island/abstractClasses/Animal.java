@@ -1,6 +1,10 @@
-package com.javarush.island;
+package com.javarush.island.abstractClasses;
 
-public abstract class Animal {
+public abstract class Animal extends BasicPosition{
+    protected Animal(int x, int y) {
+        super(new int[][]{{x,y}});
+    }
+
     protected void eat() {
         System.out.println("I can eat");
     }
