@@ -8,7 +8,7 @@ import com.javarush.island.abstractClasses.Carnivores;
 @CharacteristicsOfAnimal(weight = 6, amountOfKgForFullSaturation = 1, walkingDistance = 3, maxQuantityOfAnimal = 20)
 
 public class Eagle extends Carnivores {
-    protected Eagle(int x, int y) {
+    public Eagle(int x, int y) {
         super(x, y);
     }
 }

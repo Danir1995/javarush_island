@@ -8,7 +8,7 @@ import com.javarush.island.abstractClasses.Herbivores;
 @CharacteristicsOfAnimal(weight = 70, amountOfKgForFullSaturation = 15, walkingDistance = 3, maxQuantityOfAnimal = 140)
 
 public class Sheep extends Herbivores {
-    protected Sheep(int x, int y) {
+    public Sheep(int x, int y) {
         super(x, y);
     }
 }

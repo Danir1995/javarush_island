@@ -1,8 +1,32 @@
 package com.javarush.island.abstractClasses;
 
-public abstract class Animal extends BasicPosition{
-    protected Animal(int x, int y) {
-        super(new int[][]{{x,y}});
+
+
+import java.lang.annotation.Annotation;
+
+public abstract class Animal{
+    int x;
+    int y;
+
+    public Animal(int x, int y) {
+       this.x = x;
+       this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getY() {
+        return y;
     }
 
     protected void eat() {

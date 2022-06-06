@@ -8,7 +8,7 @@ import com.javarush.island.abstractClasses.Carnivores;
 @CharacteristicsOfAnimal(weight = 8, amountOfKgForFullSaturation = 2, walkingDistance = 2, maxQuantityOfAnimal = 30)
 
 public class Fox extends Carnivores {
-    protected Fox(int x, int y) {
+    public Fox(int x, int y) {
         super(x, y);
     }
 }

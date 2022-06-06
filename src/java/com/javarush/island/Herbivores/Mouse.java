@@ -8,7 +8,7 @@ import com.javarush.island.abstractClasses.Herbivores;
 @CharacteristicsOfAnimal(weight = 0.05, amountOfKgForFullSaturation = 0.01, walkingDistance = 1, maxQuantityOfAnimal = 500)
 
 public class Mouse extends Herbivores {
-    protected Mouse(int x, int y) {
+    public Mouse(int x, int y) {
         super(x, y);
     }
 }
