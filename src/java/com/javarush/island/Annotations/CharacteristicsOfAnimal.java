@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CharacteristicsOfAnimal {
-    long weight();
-    long amountOfKgForFullSaturation();
+    double weight();
+    double amountOfKgForFullSaturation();
     int walkingDistance();
     int maxQuantityOfAnimal();
 }
