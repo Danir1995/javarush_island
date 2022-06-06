@@ -4,8 +4,11 @@ import com.javarush.island.Annotations.CharacteristicsOfAnimal;
 import com.javarush.island.Annotations.Emoji;
 import com.javarush.island.abstractClasses.Animal;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class AnimalMaking {
     public String createAnimalEmoji(Class animal){
+
         if (!animal.isAnnotationPresent(Emoji.class)){
             throw new RuntimeException("It is not animal");
         }
@@ -28,7 +31,7 @@ public class AnimalMaking {
         CharacteristicsOfAnimal weightOfAnimal = (CharacteristicsOfAnimal) animal.getAnnotation(CharacteristicsOfAnimal.class);
         return weightOfAnimal.weight();
     }
-    //дописать сатурэйшн, и ходы
+
 
     public double saturation(Class animal){
         if (!animal.isAnnotationPresent(CharacteristicsOfAnimal.class)){
@@ -46,9 +49,16 @@ public class AnimalMaking {
         return steps.walkingDistance();
     }
 
-    public void goCreate(Class animal, String[][] island, int x, int y){
-        for (int i = 0; i < animalQuantity(animal); i++){
+    public int goCreate(Class animal, String[][] island){
+        ThreadLocalRandom randomPosition = ThreadLocalRandom.current();
+        int counter = 0;
+        for (int i = 0; i < randomPosition.nextInt(1, animalQuantity(animal)); i++){
+            int x = randomPosition.nextInt(0, 100);
+            int y = randomPosition.nextInt(0, 20);
             island[x][y] = createAnimalEmoji(animal);
+            ++counter;
         }
+        System.out.print(animal.getSimpleName() + " = ");
+        return counter;
     }
 }
