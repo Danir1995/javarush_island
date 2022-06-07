@@ -4,18 +4,21 @@ import com.javarush.island.Carnivores.*;
 import com.javarush.island.Herbivores.*;
 import com.javarush.island.Plants.Plants;
 
+import java.lang.reflect.Field;
 import java.nio.file.StandardOpenOption;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
 
-    public static final String[][] island = new String[100][20];
+    private static String[][] island = null;
 
     public static void main(String[] args) {
+        island = dialogAndRules(island);
         grassGrows();
         allAnimalsCreator();
         showIsland();
-
     }
 
     private static void showIsland(){
@@ -56,10 +59,50 @@ public class Main {
     private static void grassGrows(){
         ThreadLocalRandom randomPosition = ThreadLocalRandom.current();
         for (int i = 0; i < 200; i++){
-            int x = randomPosition.nextInt(0, 100);
-            int y = randomPosition.nextInt(0, 20);
+
+            int x = randomPosition.nextInt(0, island.length);
+            int y = randomPosition.nextInt(0, island[0].length);
+            Plants plants = new Plants(x, y);
             island[x][y] = "\uD83C\uDF31";
         }
         System.out.println(Plants.class.getSimpleName() + " = " + 200);
+    }
+
+    public static String[][] dialogAndRules(String[][] island){
+        int width = 20;
+        int length = 100;
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Hello! Welcome to the wild animal world!");
+        System.out.println("You have an island 100x20 and a lot of animals!\nDo you want to change size of island?: " );
+        System.out.println("YES(1)/NO(2):");
+
+        int answer = 0;
+        try {
+             answer = scanner.nextInt();
+        }catch (InputMismatchException e){
+            System.out.println("Put only numbers 1-for YES or 2-for NO");
+        }
+
+        if (answer == 1) {
+            System.out.println("Let's choose the size of the island!\nPlease write width of the island: ");
+
+            try {
+                width = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("You should put the number! Try 5 min later.");
+            }
+            System.out.println("Now choose the length of the island");
+
+            try {
+                length = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("You should put the number! Try 5 min later.");
+            }
+           return island = new String[length][width];
+        }else if (answer == 2){
+           return island = new String[length][width];
+        } else throw new RuntimeException("You didn't choose any option! (YES(1) or NO(2))");
     }
 }

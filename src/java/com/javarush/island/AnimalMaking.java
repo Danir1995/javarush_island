@@ -56,8 +56,8 @@ public class AnimalMaking {
 
         int counter = 0;
         for (int i = 0; i < randomPosition.nextInt(1, animalQuantity(animal)); i++){
-            int x = randomPosition.nextInt(0, 100);
-            int y = randomPosition.nextInt(0, 20);
+            int x = randomPosition.nextInt(0, island.length);
+            int y = randomPosition.nextInt(0, island[0].length);
             Animal newAnimal = switch (animal.getSimpleName()) {
                 case "Bear" -> new Bear(x, y);
                 case "Boa" -> new Boa(x, y);
