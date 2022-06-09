@@ -11,7 +11,6 @@ import java.lang.annotation.Annotation;
 @CharacteristicsOfAnimal(weight = 0.01, amountOfKgForFullSaturation = 0, walkingDistance = 0, maxQuantityOfAnimal = 1000)
 
 public class Caterpillar extends Herbivores {
-
     public Caterpillar(int x, int y, String emoji) {
         super(x, y, emoji);
     }

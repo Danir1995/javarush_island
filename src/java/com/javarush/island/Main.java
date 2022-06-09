@@ -15,11 +15,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     public static AnimalMaking animalMaking = new AnimalMaking();
-
     private static BasicPosition[][] island = null;
 
     public static void main(String[] args) {
-
         island = dialogAndRules(island);
         grassGrows();
         allAnimalsCreator();
@@ -39,7 +37,6 @@ public class Main {
     }
 
     private static void putOnIsland(Class animal){
-        AnimalMaking animalMaking = new AnimalMaking();
         try {
             System.out.println(animalMaking.goCreate(animal, island));
         } catch (NoSuchFieldException e) {
@@ -67,11 +64,10 @@ public class Main {
 
     private static void grassGrows(){
         ThreadLocalRandom randomPosition = ThreadLocalRandom.current();
-        for (int i = 0; i < 200; i++){
 
+        for (int i = 0; i < 200; i++){
             int x = randomPosition.nextInt(0, island.length);
             int y = randomPosition.nextInt(0, island[0].length);
-//            Plants plants = new Plants(x, y, "\uD83C\uDF31");
             island[x][y] = new BasicPosition(x, y, "\uD83C\uDF31");
         }
         System.out.println(Plants.class.getSimpleName() + " = " + 200);
@@ -96,22 +92,34 @@ public class Main {
 
         if (answer == 1) {
             System.out.println("Let's choose the size of the island!\nPlease write width of the island: ");
-
             try {
                 width = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("You should put the number! Try 5 min later.");
             }
             System.out.println("Now choose the length of the island");
-
             try {
                 length = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("You should put the number! Try 5 min later.");
             }
-           return island = new BasicPosition[length][width];
+            System.out.println("You chose size of the island, now island's size is: " + width + "x" + length);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Quantity of animals: ");
+            return island = new BasicPosition[length][width];
         }else if (answer == 2){
-           return island = new BasicPosition[length][width];
+            System.out.println("You chose default option, Island's size is 100x20");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Quantity of animals: ");
+            return island = new BasicPosition[length][width];
         } else throw new RuntimeException("You didn't choose any option! (YES(1) or NO(2))");
     }
 }
