@@ -52,7 +52,7 @@ public class AnimalMaking {
         return steps.walkingDistance();
     }
 
-    public int goCreate(Class animal, BasicPosition[][] island){
+    public int goCreate(Class animal, BasicPosition[][] island) throws NoSuchFieldException {
         ThreadLocalRandom randomPosition = ThreadLocalRandom.current();
 
         int counter = 0;
@@ -78,7 +78,7 @@ public class AnimalMaking {
 //                default -> throw new RuntimeException("It is not an animal!");
 //            };
 
-            island[x][y] = new Animal(x, y);
+            island[x][y] = new Animal(x, y, createAnimalEmoji(animal));
             ++counter;
         }
         System.out.print(animal.getSimpleName() + " = ");

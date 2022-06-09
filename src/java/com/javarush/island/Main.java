@@ -1,5 +1,6 @@
 package com.javarush.island;
 
+import com.javarush.island.Annotations.Emoji;
 import com.javarush.island.Carnivores.*;
 import com.javarush.island.Herbivores.*;
 import com.javarush.island.Plants.Plants;
@@ -13,9 +14,9 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
+    public static AnimalMaking animalMaking = new AnimalMaking();
 
     private static BasicPosition[][] island = null;
-    //public static Map<String, ? extends Animal> animalz = new HashMap<>();
 
     public static void main(String[] args) {
 
@@ -31,7 +32,7 @@ public class Main {
                 if (island[i][j] == null){
                     System.out.print("[ ]");
                 }else
-                    System.out.print("["+ island[i][j] + "]");
+                    System.out.print("["+ (island[i][j].getEmoji()) + "]");
             }
             System.out.println();
         }
@@ -39,7 +40,11 @@ public class Main {
 
     private static void putOnIsland(Class animal){
         AnimalMaking animalMaking = new AnimalMaking();
-        System.out.println(animalMaking.goCreate(animal, island));
+        try {
+            System.out.println(animalMaking.goCreate(animal, island));
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void allAnimalsCreator(){
@@ -66,8 +71,8 @@ public class Main {
 
             int x = randomPosition.nextInt(0, island.length);
             int y = randomPosition.nextInt(0, island[0].length);
-            Plants plants = new Plants(x, y);
-            island[x][y] = new BasicPosition(x, y);
+//            Plants plants = new Plants(x, y, "\uD83C\uDF31");
+            island[x][y] = new BasicPosition(x, y, "\uD83C\uDF31");
         }
         System.out.println(Plants.class.getSimpleName() + " = " + 200);
     }

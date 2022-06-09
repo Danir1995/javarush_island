@@ -3,12 +3,13 @@ package com.javarush.island.abstractClasses;
 
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 
 public class Animal extends BasicPosition{
 
 
-    public Animal(int x, int y) {
-        super(x, y);
+    public Animal(int x, int y, String  emoji) {
+        super(x, y, emoji);
     }
 
     protected void eat() {
@@ -27,5 +28,8 @@ public class Animal extends BasicPosition{
         System.out.println("I died");
     }
 
-
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

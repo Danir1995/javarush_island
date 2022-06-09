@@ -1,7 +1,10 @@
 package com.javarush.island.abstractClasses;
 
+import java.lang.annotation.Annotation;
+
 public abstract class Herbivores extends Animal{
-    protected Herbivores(int x, int y) {
-        super(x, y);
+
+    public Herbivores(int x, int y, String  emoji) {
+        super(x, y, emoji);
     }
 }
