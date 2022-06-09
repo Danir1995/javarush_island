@@ -1,17 +1,27 @@
 package com.javarush.island.abstractClasses;
 
-public abstract class BasicPosition {
-    int[][] position;
+public class BasicPosition {
+    int x;
+    int y;
 
-    protected BasicPosition(int[][] position){
-        this.position = position;
+    public BasicPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public int[][] getPosition() {
-        return position;
+    public int getX() {
+        return x;
     }
 
-    public void setPosition(int[][] position) {
-        this.position = position;
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getY() {
+        return y;
     }
 }

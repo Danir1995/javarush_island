@@ -3,18 +3,22 @@ package com.javarush.island;
 import com.javarush.island.Carnivores.*;
 import com.javarush.island.Herbivores.*;
 import com.javarush.island.Plants.Plants;
+import com.javarush.island.abstractClasses.Animal;
+import com.javarush.island.abstractClasses.BasicPosition;
 
-import java.lang.reflect.Field;
-import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
 
-    private static String[][] island = null;
+    private static BasicPosition[][] island = null;
+    //public static Map<String, ? extends Animal> animalz = new HashMap<>();
 
     public static void main(String[] args) {
+
         island = dialogAndRules(island);
         grassGrows();
         allAnimalsCreator();
@@ -63,12 +67,12 @@ public class Main {
             int x = randomPosition.nextInt(0, island.length);
             int y = randomPosition.nextInt(0, island[0].length);
             Plants plants = new Plants(x, y);
-            island[x][y] = "\uD83C\uDF31";
+            island[x][y] = new BasicPosition(x, y);
         }
         System.out.println(Plants.class.getSimpleName() + " = " + 200);
     }
 
-    public static String[][] dialogAndRules(String[][] island){
+    public static BasicPosition[][] dialogAndRules(BasicPosition[][] island){
         int width = 20;
         int length = 100;
 
@@ -100,9 +104,9 @@ public class Main {
             } catch (InputMismatchException e) {
                 System.out.println("You should put the number! Try 5 min later.");
             }
-           return island = new String[length][width];
+           return island = new BasicPosition[length][width];
         }else if (answer == 2){
-           return island = new String[length][width];
+           return island = new BasicPosition[length][width];
         } else throw new RuntimeException("You didn't choose any option! (YES(1) or NO(2))");
     }
 }
