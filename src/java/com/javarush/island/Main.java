@@ -4,27 +4,44 @@ import com.javarush.island.Annotations.Emoji;
 import com.javarush.island.Carnivores.*;
 import com.javarush.island.Herbivores.*;
 import com.javarush.island.Plants.Plants;
-import com.javarush.island.abstractClasses.Animal;
-import com.javarush.island.abstractClasses.BasicPosition;
+import com.javarush.island.abstractClasses.BasicItem;
 
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     public static AnimalMaking animalMaking = new AnimalMaking();
-    private static BasicPosition[][] island = null;
+    private static BasicItem[][] island = null;
+    private static BasicItem[][] copyIsland = null;
+
 
     public static void main(String[] args) {
+
         island = dialogAndRules(island);
+        copyIsland = new BasicItem[island.length][island[0].length];
         grassGrows();
         allAnimalsCreator();
-        showIsland();
+        showIsland(island);
+        MoveAnimals animals = new MoveAnimals();
+
+               for (int i = 0; i < 100; i++) {
+            copyIsland = animals.chooseSide(island);
+
+            showIsland(copyIsland);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Arrays.fill(island, null);
+            island = animals.chooseSide(copyIsland);
+            System.out.println("-------------------------------------------------------------------");
+            showIsland(island);
+            Arrays.fill(copyIsland,null);
+        }
     }
 
-    private static void showIsland(){
+    private static void showIsland(BasicItem[][] island){
         for (int i = 0; i < island.length; i++){
             for (int j = 0; j < island[i].length; j++){
                 if (island[i][j] == null){
@@ -68,12 +85,12 @@ public class Main {
         for (int i = 0; i < 200; i++){
             int x = randomPosition.nextInt(0, island.length);
             int y = randomPosition.nextInt(0, island[0].length);
-            island[x][y] = new BasicPosition(x, y, "\uD83C\uDF31");
+            island[x][y] = new Plants(x, y, "\uD83C\uDF31");
         }
         System.out.println(Plants.class.getSimpleName() + " = " + 200);
     }
 
-    public static BasicPosition[][] dialogAndRules(BasicPosition[][] island){
+    public static BasicItem[][] dialogAndRules(BasicItem[][] island){
         int width = 20;
         int length = 100;
 
@@ -110,7 +127,7 @@ public class Main {
                 e.printStackTrace();
             }
             System.out.println("Quantity of animals: ");
-            return island = new BasicPosition[length][width];
+            return island = new BasicItem[length][width];
         }else if (answer == 2){
             System.out.println("You chose default option, Island's size is 100x20");
             try {
@@ -119,7 +136,7 @@ public class Main {
                 e.printStackTrace();
             }
             System.out.println("Quantity of animals: ");
-            return island = new BasicPosition[length][width];
+            return island = new BasicItem[length][width];
         } else throw new RuntimeException("You didn't choose any option! (YES(1) or NO(2))");
     }
 }

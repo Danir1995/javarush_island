@@ -1,11 +1,9 @@
 package com.javarush.island.abstractClasses;
 
+import com.javarush.island.Annotations.CharacteristicsOfAnimal;
 
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-
-public class Animal extends BasicPosition{
+@CharacteristicsOfAnimal
+public class Animal extends BasicItem {
 
 
     public Animal(int x, int y, String  emoji) {
@@ -30,6 +28,10 @@ public class Animal extends BasicPosition{
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Animal{" +
+                "x=" + x +
+                ", y=" + y +
+                ", emoji='" + emoji + '\'' +
+                '}';
     }
 }

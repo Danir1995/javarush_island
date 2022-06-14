@@ -2,12 +2,12 @@ package com.javarush.island.abstractClasses;
 
 import java.lang.annotation.Annotation;
 
-public class BasicPosition {
+public class BasicItem {
     int x;
     int y;
     String emoji;
 
-    public BasicPosition(int x, int y, String  emoji) {
+    public BasicItem(int x, int y, String  emoji) {
         this.x = x;
         this.y = y;
         this.emoji = emoji;
