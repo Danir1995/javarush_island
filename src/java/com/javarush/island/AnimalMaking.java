@@ -7,6 +7,9 @@ import com.javarush.island.Herbivores.*;
 import com.javarush.island.abstractClasses.Animal;
 import com.javarush.island.abstractClasses.BasicItem;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AnimalMaking {
@@ -59,7 +62,7 @@ public class AnimalMaking {
             int x = randomPosition.nextInt(0, island.length);
             int y = randomPosition.nextInt(0, island[0].length);
             if (animal.getSimpleName().equalsIgnoreCase("bear"))
-            island[x][y] = new Bear(x, y, createAnimalEmoji(animal));
+                island[x][y] = new Bear(x, y, createAnimalEmoji(animal));
             if (animal.getSimpleName().equalsIgnoreCase("boa"))
                 island[x][y] = new Boa(x, y, createAnimalEmoji(animal));
             if (animal.getSimpleName().equalsIgnoreCase("eagle"))

@@ -4,6 +4,7 @@ import com.javarush.island.Annotations.Emoji;
 import com.javarush.island.Carnivores.*;
 import com.javarush.island.Herbivores.*;
 import com.javarush.island.Plants.Plants;
+import com.javarush.island.abstractClasses.Animal;
 import com.javarush.island.abstractClasses.BasicItem;
 
 import java.util.*;
@@ -13,6 +14,8 @@ public class Main {
     public static AnimalMaking animalMaking = new AnimalMaking();
     private static BasicItem[][] island = null;
     private static BasicItem[][] copyIsland = null;
+    //Я НИКАК НЕ ПОЙМУ КАК МОЖНО СДЕЛАТЬ НЕСКОЛЬКО ЖИВОТНЫХ НА ЛОКАЦИИ, АНТОН ОБЪЯСНЯЛ НА ЛЕКЦИИ, ЧТО МОЖНО MAP<INT[][], LIST<BASICITEM>>,
+    //НО КАК ЗАКИДЫВАТЬ В МАССИВ ЛИСТЫ ЖИВОТНЫХ ЕСЛИ МАССИВ ПРИНИМАЕТ INT? ПОМОГИТЕ Т_Т
 
 
     public static void main(String[] args) {
@@ -24,7 +27,7 @@ public class Main {
         showIsland(island);
         MoveAnimals animals = new MoveAnimals();
 
-               for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             copyIsland = animals.chooseSide(island);
 
             showIsland(copyIsland);
@@ -102,7 +105,7 @@ public class Main {
 
         int answer = 0;
         try {
-             answer = scanner.nextInt();
+            answer = scanner.nextInt();
         }catch (InputMismatchException e){
             System.out.println("Put only numbers 1-for YES or 2-for NO");
         }

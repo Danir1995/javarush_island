@@ -8,6 +8,8 @@ import com.javarush.island.Plants.Plants;
 import com.javarush.island.abstractClasses.Animal;
 import com.javarush.island.abstractClasses.BasicItem;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MoveAnimals {
@@ -18,6 +20,7 @@ public class MoveAnimals {
     public final int DOWN = 4;
 
     public BasicItem[][] chooseSide(BasicItem[][] animalStep) {
+
         BasicItem[][] island = new BasicItem[animalStep.length][animalStep[0].length];
         AnimalMaking animalMaking = new AnimalMaking();
 
