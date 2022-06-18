@@ -2,7 +2,7 @@ package com.javarush.island.abstractClasses;
 
 import java.lang.annotation.Annotation;
 
-public class BasicItem {
+public abstract class BasicItem {
     int x;
     int y;
     String emoji;

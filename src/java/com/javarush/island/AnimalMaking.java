@@ -7,13 +7,14 @@ import com.javarush.island.Herbivores.*;
 import com.javarush.island.abstractClasses.Animal;
 import com.javarush.island.abstractClasses.BasicItem;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AnimalMaking {
-    public String createAnimalEmoji(Class animal){
+    public String createAnimalEmoji(Class<?> animal){
 
         if (!animal.isAnnotationPresent(Emoji.class)){
             throw new RuntimeException("It is not animal");
@@ -54,47 +55,31 @@ public class AnimalMaking {
         return steps.walkingDistance();
     }
 
-    public int goCreate(Class animal, BasicItem[][] island) throws NoSuchFieldException {
+    public List<BasicItem> goCreate(Class animal, int x, int y) throws NoSuchFieldException {
         ThreadLocalRandom randomPosition = ThreadLocalRandom.current();
         int counterOfAnimals = 0;
+        int quantityOfAnimals = randomPosition.nextInt(1, animalQuantity(animal));
+        List<BasicItem> listOfAnimals = new ArrayList<>();
+        for (int i = 0; i < quantityOfAnimals; i++){
 
-        for (int i = 0; i < randomPosition.nextInt(1, animalQuantity(animal)); i++){
-            int x = randomPosition.nextInt(0, island.length);
-            int y = randomPosition.nextInt(0, island[0].length);
-            if (animal.getSimpleName().equalsIgnoreCase("bear"))
-                island[x][y] = new Bear(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("boa"))
-                island[x][y] = new Boa(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("eagle"))
-                island[x][y] = new Eagle(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("fox"))
-                island[x][y] = new Fox(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("wolf"))
-                island[x][y] = new Wolf(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("boar"))
-                island[x][y] = new Boar(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("buffalo"))
-                island[x][y] = new Buffalo(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("caterpillar"))
-                island[x][y] = new Caterpillar(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("deer"))
-                island[x][y] = new Deer(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("duck"))
-                island[x][y] = new Duck(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("goat"))
-                island[x][y] = new Goat(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("horse"))
-                island[x][y] = new Horse(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("mouse"))
-                island[x][y] = new Mouse(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("rabbit"))
-                island[x][y] = new Rabbit(x, y, createAnimalEmoji(animal));
-            if (animal.getSimpleName().equalsIgnoreCase("sheep"))
-                island[x][y] = new Sheep(x, y, createAnimalEmoji(animal));
-            ++counterOfAnimals;
+            switch (animal.getSimpleName().toLowerCase()) {
+                case "bear" -> listOfAnimals.add(new Bear(x, y, Bear.class.getAnnotation(Emoji.class).emoji()));
+                case "boa" -> listOfAnimals.add(new Boa(x, y, Boa.class.getAnnotation(Emoji.class).emoji()));
+                case "eagle" -> listOfAnimals.add(new Eagle(x, y, Eagle.class.getAnnotation(Emoji.class).emoji()));
+                case "fox" -> listOfAnimals.add(new Fox(x, y, Fox.class.getAnnotation(Emoji.class).emoji()));
+                case "wolf" -> listOfAnimals.add(new Wolf(x, y, Wolf.class.getAnnotation(Emoji.class).emoji()));
+                case "boar" -> listOfAnimals.add(new Boar(x, y, Boar.class.getAnnotation(Emoji.class).emoji()));
+                case "buffalo" -> listOfAnimals.add(new Buffalo(x, y, Buffalo.class.getAnnotation(Emoji.class).emoji()));
+                case "caterpillar" -> listOfAnimals.add(new Caterpillar(x, y, Caterpillar.class.getAnnotation(Emoji.class).emoji()));
+                case "deer" -> listOfAnimals.add(new Deer(x, y, Deer.class.getAnnotation(Emoji.class).emoji()));
+                case "duck" -> listOfAnimals.add(new Duck(x, y, Duck.class.getAnnotation(Emoji.class).emoji()));
+                case "goat" -> listOfAnimals.add(new Goat(x, y, Goat.class.getAnnotation(Emoji.class).emoji()));
+                case "horse" -> listOfAnimals.add(new Horse(x, y, Horse.class.getAnnotation(Emoji.class).emoji()));
+                case "mouse" -> listOfAnimals.add(new Mouse(x, y, Mouse.class.getAnnotation(Emoji.class).emoji()));
+                case "rabbit" -> listOfAnimals.add(new Rabbit(x, y, Rabbit.class.getAnnotation(Emoji.class).emoji()));
+                case "sheep" -> listOfAnimals.add(new Sheep(x, y, Sheep.class.getAnnotation(Emoji.class).emoji()));
+                  }
         }
-
-        System.out.print(animal.getSimpleName() + " = ");
-        return counterOfAnimals;
+        return listOfAnimals;
     }
 }
