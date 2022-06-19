@@ -23,10 +23,17 @@ public class Main {
         island = dialogAndRules(island);
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
-                mapOfAnimals.put("x" + i + "y" + j, basicItemList = new ArrayList<>());//сделать чтоб в бэсикайтем сразу закидывались животные
-                basicItemList = allAnimalsCreator(i, j);
-                System.out.println(basicItemList.get(3));
+                mapOfAnimals.put("x" + i + "y" + j, basicItemList = allAnimalsCreator(i, j));//сделать чтоб в бэсикайтем сразу закидывались животные
+                System.out.println(basicItemList.size());
             }
+        }
+
+        System.out.println("=====================================================================");
+        MoveAnimals animals = new MoveAnimals();
+        animals.chooseSide(island, mapOfAnimals);
+        for (Map.Entry<String, List<BasicItem>> m: mapOfAnimals.entrySet()){
+           // System.out.println(m);
+            System.out.println(m.getValue().size());
         }
 
     }

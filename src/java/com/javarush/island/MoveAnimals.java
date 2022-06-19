@@ -10,46 +10,52 @@ import com.javarush.island.abstractClasses.BasicItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MoveAnimals {
     public ThreadLocalRandom chooseSideByNum = ThreadLocalRandom.current();
+
     public final int LEFT = 1;
     public final int RIGHT = 2;
     public final int UP = 3;
     public final int DOWN = 4;
 
-    public BasicItem[][] chooseSide(BasicItem[][] animalStep) {
-
-        BasicItem[][] island = new BasicItem[animalStep.length][animalStep[0].length];
+    public void chooseSide(int[][] island, Map<String, List<BasicItem>> animalList) {
         AnimalMaking animalMaking = new AnimalMaking();
+        List<BasicItem> animals;
 
-        for (int i = 0; i < animalStep.length; i++) {
-            for (int j = 0; j < animalStep[0].length; j++) {
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                animals = animalList.get("x" + i + "y" + j);
+                for (int e = 0; e < animals.size(); e++) {
 
-                if (animalStep[i][j] != null && animalStep[i][j].getClass().isAnnotationPresent(CharacteristicsOfAnimal.class)){
+                    int randomSide = chooseSideByNum.nextInt(1, 5);
                     try {
-                       int steps = animalMaking.move(animalStep[i][j].getClass());
-                        int RandomSide = chooseSideByNum.nextInt(1, 5);
-                        if (RandomSide == LEFT) {
-                            island[i][j + steps] = animalStep[i][j];
-
-                        } else if (RandomSide == RIGHT) {
-                            island[i][j - steps] = animalStep[i][j];
-
-                        } else if (RandomSide == UP) {
-                            island[i - steps][j] = animalStep[i][j];
-
-                        } else if (RandomSide == DOWN) {
-                            island[i + steps][j] = animalStep[i][j];
-
+                        switch (randomSide) {
+                            case LEFT -> {
+                                animalList.get("x" + i + "y" + (j - animalMaking.move(animals.get(e).getClass()))).add(animals.get(e));
+                                animals.remove(e);
+                            }
+                            case RIGHT -> {
+                                animalList.get("x" + i + "y" + (j + animalMaking.move(animals.get(e).getClass()))).add(animals.get(e));
+                                animals.remove(e);
+                            }
+                            case UP -> {
+                                animalList.get("x" + (i - animalMaking.move(animals.get(e).getClass())) + "y" + j).add(animals.get(e));
+                                animals.remove(e);
+                            }
+                            case DOWN -> {
+                                animalList.get("x" + (i + animalMaking.move(animals.get(e).getClass())) + "y" + j).add(animals.get(e));
+                                animals.remove(e);
+                            }
                         }
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("animal can not go to the river");
+                    } catch (NullPointerException animalChoseSideToGoOutsideOfIsland) {
+                        System.out.println("animal can not go outside of island");
                     }
                 }
             }
-        }return island;
+        }
     }
 }
-//animalMaking.move(animalStep[i][j].getClass())
+//work on logic if animal want go outside of island

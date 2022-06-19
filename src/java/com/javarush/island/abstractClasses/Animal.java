@@ -3,7 +3,7 @@ package com.javarush.island.abstractClasses;
 import com.javarush.island.Annotations.CharacteristicsOfAnimal;
 
 @CharacteristicsOfAnimal
-public class Animal extends BasicItem {
+public abstract class Animal extends BasicItem {
 
     public Animal(int x, int y, String  emoji) {
         super(x, y, emoji);
