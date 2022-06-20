@@ -60,8 +60,8 @@ public class AnimalMaking {
 
         int quantityOfAnimals = randomPosition.nextInt(1, animalQuantity(animal));
         List<BasicItem> listOfAnimals = new ArrayList<>();
-        for (int i = 0; i < quantityOfAnimals; i++){
 
+        for (int i = 0; i < quantityOfAnimals; i++){
             switch (animal.getSimpleName().toLowerCase()) {
                 case "bear" -> listOfAnimals.add(new Bear(x, y, Bear.class.getAnnotation(Emoji.class).emoji()));
                 case "boa" -> listOfAnimals.add(new Boa(x, y, Boa.class.getAnnotation(Emoji.class).emoji()));
@@ -78,7 +78,7 @@ public class AnimalMaking {
                 case "mouse" -> listOfAnimals.add(new Mouse(x, y, Mouse.class.getAnnotation(Emoji.class).emoji()));
                 case "rabbit" -> listOfAnimals.add(new Rabbit(x, y, Rabbit.class.getAnnotation(Emoji.class).emoji()));
                 case "sheep" -> listOfAnimals.add(new Sheep(x, y, Sheep.class.getAnnotation(Emoji.class).emoji()));
-                  }
+            }
         }
         return listOfAnimals;
     }

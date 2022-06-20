@@ -16,9 +16,14 @@ public class Main {
     private static int[][] copyIsland = null;
     private static List<BasicItem> basicItemList;
     private static Map<String, List<BasicItem>> mapOfAnimals = new HashMap<>();
+    private static ThreadLocalRandom chooseYourDestiny = ThreadLocalRandom.current();
 
     public static void main(String[] args) {
+        MoveAnimals animals = new MoveAnimals();
+        AnimalEating animalEating = new AnimalEating();
+
         island = dialogAndRules(island);
+
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
                 mapOfAnimals.put("x" + i + "y" + j, basicItemList = allAnimalsCreator(i, j));
@@ -28,9 +33,30 @@ public class Main {
         }
 
         System.out.println("=====================================================================");
-        MoveAnimals animals = new MoveAnimals();
+
         animals.chooseSide(island, mapOfAnimals);
 
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                System.out.print("["+ (mapOfAnimals.get("x" + i + "y" + j).size()) + "]");
+            }
+            System.out.println();
+        }
+
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                List<BasicItem> animal = mapOfAnimals.get("x" + i + "y" + j);
+                for (int carnivore = 0; carnivore < animal.size(); carnivore++) {
+                    for (int herbivore = 0; herbivore < animal.size(); herbivore++) {
+                        int timeToEat = chooseYourDestiny.nextInt(1, 101);
+                        if (animalEating.eaten(animal.get(carnivore), animal.get(herbivore), timeToEat)){
+                            animal.remove(herbivore);
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("=====================================================================");
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
                 System.out.print("["+ (mapOfAnimals.get("x" + i + "y" + j).size()) + "]");
@@ -52,7 +78,7 @@ public class Main {
     }
 
     private static List<BasicItem> allAnimalsCreator(int x, int y){
-        List<BasicItem> allAnimals = new ArrayList<>();
+        List<BasicItem> all = new ArrayList<>();
         try {
             List<BasicItem> listBear = animalMaking.goCreate(Bear.class, x, y);
             List<BasicItem> listBoa = animalMaking.goCreate(Boa.class, x, y);
@@ -69,36 +95,35 @@ public class Main {
             List<BasicItem> listRabbit = animalMaking.goCreate(Rabbit.class, x, y);
             List<BasicItem> listSheep = animalMaking.goCreate(Sheep.class, x, y);
 
-            allAnimals.addAll(listBear);
-            allAnimals.addAll(listBoa);
-            allAnimals.addAll(listEagle);
-            allAnimals.addAll(listFox);
-            allAnimals.addAll(listWolf);
-            allAnimals.addAll(listBuffalo);
-            allAnimals.addAll(listCaterpillar);
-            allAnimals.addAll(listDeer);
-            allAnimals.addAll(listDuck);
-            allAnimals.addAll(listGoat);
-            allAnimals.addAll(listHorse);
-            allAnimals.addAll(listMouse);
-            allAnimals.addAll(listRabbit);
-            allAnimals.addAll(listSheep);
-
+            all.addAll(listBear);
+            all.addAll(listBoa);
+            all.addAll(listEagle);
+            all.addAll(listFox);
+            all.addAll(listWolf);
+            all.addAll(listBuffalo);
+            all.addAll(listCaterpillar);
+            all.addAll(listDeer);
+            all.addAll(listDuck);
+            all.addAll(listGoat);
+            all.addAll(listHorse);
+            all.addAll(listMouse);
+            all.addAll(listRabbit);
+            all.addAll(listSheep);
+            all.addAll(grassGrows(x, y));
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
-        return allAnimals;
+        return all;
     }
 
-    private static void grassGrows(){
-        ThreadLocalRandom randomPosition = ThreadLocalRandom.current();
-
-        for (int i = 0; i < 200; i++){
-            int x = randomPosition.nextInt(0, island.length);
-            int y = randomPosition.nextInt(0, island[0].length);
-            // island[x][y] = new Plants(x, y, "\uD83C\uDF31");
+    private static List<BasicItem> grassGrows(int x, int y){
+        List<BasicItem> grass = new ArrayList<>();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        int grassQuantity = random.nextInt(10, 201);
+        for (int i = 0; i < grassQuantity; i++){
+            grass.add(new Plants(x, y, "\uD83C\uDF31"));
         }
-        System.out.println(Plants.class.getSimpleName() + " = " + 200);
+        return grass;
     }
 
     public static int[][] dialogAndRules(int[][] island){

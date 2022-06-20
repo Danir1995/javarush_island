@@ -31,32 +31,33 @@ public class MoveAnimals {
                 for (int e = 0; e < animals.size(); e++) {
 
                     int randomSide = chooseSideByNum.nextInt(1, 5);
-                    try {
-                        int steps = animalMaking.move(animals.get(e).getClass());
-                        switch (randomSide) {
-                            case LEFT -> {
-                                animals.get(e).setY(j - steps);
-                                animalList.get("x" + i + "y" + (j - steps)).add(animals.get(e));
-                                animals.remove(e);
+                    if (!animals.get(e).getClass().getSimpleName().equalsIgnoreCase("plants")) {
+                        try {
+                            int steps = animalMaking.move(animals.get(e).getClass());
+                            switch (randomSide) {
+                                case LEFT -> {
+                                    animals.get(e).setY(j - steps);
+                                    animalList.get("x" + i + "y" + (j - steps)).add(animals.get(e));
+                                    animals.remove(e);
+                                }
+                                case RIGHT -> {
+                                    animals.get(e).setY(j + steps);
+                                    animalList.get("x" + i + "y" + (j + steps)).add(animals.get(e));
+                                    animals.remove(e);
+                                }
+                                case UP -> {
+                                    animals.get(e).setX(i - steps);
+                                    animalList.get("x" + (i - steps) + "y" + j).add(animals.get(e));
+                                    animals.remove(e);
+                                }
+                                case DOWN -> {
+                                    animals.get(e).setX(i + steps);
+                                    animalList.get("x" + (i + steps) + "y" + j).add(animals.get(e));
+                                    animals.remove(e);
+                                }
                             }
-                            case RIGHT -> {
-                                animals.get(e).setY(j + steps);
-                                animalList.get("x" + i + "y" + (j + steps)).add(animals.get(e));
-                                animals.remove(e);
-                            }
-                            case UP -> {
-                                animals.get(e).setX(i - steps);
-                                animalList.get("x" + (i - steps) + "y" + j).add(animals.get(e));
-                                animals.remove(e);
-                            }
-                            case DOWN -> {
-                                animals.get(e).setX(i + steps);
-                                animalList.get("x" + (i + steps) + "y" + j).add(animals.get(e));
-                                animals.remove(e);
-                            }
+                        } catch (NullPointerException animalChoseSideToGoOutsideOfIsland) {
                         }
-                    } catch (NullPointerException animalChoseSideToGoOutsideOfIsland) {
-
                     }
                 }
             }

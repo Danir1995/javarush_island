@@ -10,7 +10,7 @@ import java.lang.annotation.Annotation;
 @Emoji(emoji = "\uD83D\uDC00")
 @CharacteristicsOfAnimal(weight = 0.05, amountOfKgForFullSaturation = 0.01, walkingDistance = 1, maxQuantityOfAnimal = 500)
 
-public class Mouse extends Animal {
+public class Mouse extends Herbivores {
     public Mouse(int x, int y, String emoji) {
         super(x, y, emoji);
     }
