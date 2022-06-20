@@ -32,26 +32,31 @@ public class MoveAnimals {
 
                     int randomSide = chooseSideByNum.nextInt(1, 5);
                     try {
+                        int steps = animalMaking.move(animals.get(e).getClass());
                         switch (randomSide) {
                             case LEFT -> {
-                                animalList.get("x" + i + "y" + (j - animalMaking.move(animals.get(e).getClass()))).add(animals.get(e));
+                                animals.get(e).setY(j - steps);
+                                animalList.get("x" + i + "y" + (j - steps)).add(animals.get(e));
                                 animals.remove(e);
                             }
                             case RIGHT -> {
-                                animalList.get("x" + i + "y" + (j + animalMaking.move(animals.get(e).getClass()))).add(animals.get(e));
+                                animals.get(e).setY(j + steps);
+                                animalList.get("x" + i + "y" + (j + steps)).add(animals.get(e));
                                 animals.remove(e);
                             }
                             case UP -> {
-                                animalList.get("x" + (i - animalMaking.move(animals.get(e).getClass())) + "y" + j).add(animals.get(e));
+                                animals.get(e).setX(i - steps);
+                                animalList.get("x" + (i - steps) + "y" + j).add(animals.get(e));
                                 animals.remove(e);
                             }
                             case DOWN -> {
-                                animalList.get("x" + (i + animalMaking.move(animals.get(e).getClass())) + "y" + j).add(animals.get(e));
+                                animals.get(e).setX(i + steps);
+                                animalList.get("x" + (i + steps) + "y" + j).add(animals.get(e));
                                 animals.remove(e);
                             }
                         }
                     } catch (NullPointerException animalChoseSideToGoOutsideOfIsland) {
-                        System.out.println("animal can not go outside of island");
+
                     }
                 }
             }

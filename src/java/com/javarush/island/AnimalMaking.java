@@ -57,7 +57,7 @@ public class AnimalMaking {
 
     public List<BasicItem> goCreate(Class animal, int x, int y) throws NoSuchFieldException {
         ThreadLocalRandom randomPosition = ThreadLocalRandom.current();
-        int counterOfAnimals = 0;
+
         int quantityOfAnimals = randomPosition.nextInt(1, animalQuantity(animal));
         List<BasicItem> listOfAnimals = new ArrayList<>();
         for (int i = 0; i < quantityOfAnimals; i++){
