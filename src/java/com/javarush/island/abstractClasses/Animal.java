@@ -4,9 +4,9 @@ import com.javarush.island.Annotations.CharacteristicsOfAnimal;
 
 @CharacteristicsOfAnimal
 public abstract class Animal extends BasicItem {
-    int saturation;
-    boolean isDied = false;
-    boolean isAte = false;
+   public double saturation;
+   public boolean isDied = false;
+   public boolean isAte = false;
 
     public Animal(int x, int y, String  emoji) {
         super(x, y, emoji);
@@ -29,11 +29,11 @@ public abstract class Animal extends BasicItem {
         System.out.println("I died");
     }
 
-    public int getSaturation() {
+    public double getSaturation() {
         return saturation;
     }
 
-    public void setSaturation(int saturation) {
+    public void setSaturation(double saturation) {
         this.saturation = saturation;
     }
 

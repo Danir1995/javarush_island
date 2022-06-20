@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class MoveAnimals {
+public class AnimalMovements {
     public ThreadLocalRandom chooseSideByNum = ThreadLocalRandom.current();
 
     public final int LEFT = 1;

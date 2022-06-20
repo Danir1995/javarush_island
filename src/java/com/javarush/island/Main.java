@@ -1,11 +1,10 @@
 package com.javarush.island;
 
-import com.javarush.island.Annotations.Emoji;
 import com.javarush.island.Carnivores.*;
 import com.javarush.island.Herbivores.*;
 import com.javarush.island.Plants.Plants;
-import com.javarush.island.abstractClasses.Animal;
 import com.javarush.island.abstractClasses.BasicItem;
+import com.javarush.island.abstractClasses.Carnivores;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -19,7 +18,7 @@ public class Main {
     private static ThreadLocalRandom chooseYourDestiny = ThreadLocalRandom.current();
 
     public static void main(String[] args) {
-        MoveAnimals animals = new MoveAnimals();
+        AnimalMovements animals = new AnimalMovements();
         AnimalEating animalEating = new AnimalEating();
 
         island = dialogAndRules(island);
@@ -45,12 +44,15 @@ public class Main {
 
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
-                List<BasicItem> animal = mapOfAnimals.get("x" + i + "y" + j);
-                for (int carnivore = 0; carnivore < animal.size(); carnivore++) {
-                    for (int herbivore = 0; herbivore < animal.size(); herbivore++) {
-                        int timeToEat = chooseYourDestiny.nextInt(1, 101);
-                        if (animalEating.eaten(animal.get(carnivore), animal.get(herbivore), timeToEat)){
-                            animal.remove(herbivore);
+                List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
+                for (int carnivore = 0; carnivore < islandSquare.size(); carnivore++) {
+                    if (islandSquare.get(carnivore) instanceof Carnivores) {
+                        for (int herbivore = 0; herbivore < islandSquare.size(); herbivore++) {
+                            int timeToEat = chooseYourDestiny.nextInt(1, 101);
+                            animalEating.eaten(islandSquare,islandSquare.get(carnivore), islandSquare.get(herbivore), timeToEat);
+                            if (((Carnivores) islandSquare.get(carnivore)).getSaturation() >= animalMaking.saturation(islandSquare.get(carnivore).getClass())){
+                                break;
+                            }
                         }
                     }
                 }
@@ -59,9 +61,9 @@ public class Main {
         System.out.println("=====================================================================");
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
-                System.out.print("["+ (mapOfAnimals.get("x" + i + "y" + j).size()) + "]");
-            }
-            System.out.println();
+
+                    System.out.print("[" + (mapOfAnimals.get("x" + i + "y" + j).size()) + "]");
+            } System.out.println();
         }
     }
 
