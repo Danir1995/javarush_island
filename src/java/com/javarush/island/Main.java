@@ -5,6 +5,7 @@ import com.javarush.island.Herbivores.*;
 import com.javarush.island.Plants.Plants;
 import com.javarush.island.abstractClasses.BasicItem;
 import com.javarush.island.abstractClasses.Carnivores;
+import com.javarush.island.abstractClasses.Herbivores;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -46,14 +47,18 @@ public class Main {
             for (int j = 0; j < island[0].length; j++) {
                 List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
                 for (int carnivore = 0; carnivore < islandSquare.size(); carnivore++) {
-                    if (islandSquare.get(carnivore) instanceof Carnivores) {
+
                         for (int herbivore = 0; herbivore < islandSquare.size(); herbivore++) {
+//                            if (islandSquare.get(carnivore) instanceof Carnivores) {
                             int timeToEat = chooseYourDestiny.nextInt(1, 101);
                             animalEating.eaten(islandSquare,islandSquare.get(carnivore), islandSquare.get(herbivore), timeToEat);
-                            if (((Carnivores) islandSquare.get(carnivore)).getSaturation() >= animalMaking.saturation(islandSquare.get(carnivore).getClass())){
-                                break;
-                            }
-                        }
+//                            if (islandSquare.get(carnivore) instanceof Carnivores) {
+//                                if (((Carnivores) islandSquare.get(carnivore)).getSaturation() >= animalMaking.saturation(islandSquare.get(carnivore).getClass())) {
+//                                    break;
+//                                }
+//                            }
+
+//                        }
                     }
                 }
             }

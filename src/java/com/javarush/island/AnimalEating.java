@@ -1,9 +1,7 @@
 package com.javarush.island;
 
 import com.javarush.island.Annotations.CharacteristicsOfAnimal;
-import com.javarush.island.Carnivores.Boa;
-import com.javarush.island.Carnivores.Fox;
-import com.javarush.island.Carnivores.Wolf;
+import com.javarush.island.Carnivores.*;
 import com.javarush.island.Herbivores.*;
 import com.javarush.island.abstractClasses.BasicItem;
 
@@ -172,6 +170,127 @@ public class AnimalEating {
             }
         }
 
+        if(predator instanceof Bear){
+            saturation = ((Bear) predator).getSaturation();
+            fullSaturation = animalMaking.saturation(Bear.class);
+            if (saturation < fullSaturation){
+                if (victim instanceof Boa){
+                    if (chance <= 80){
+                        ((Bear)predator).setSaturation(((Bear) predator).getSaturation() + animalMaking.animalKg(Boa.class));
+                        ((Boa) victim).setDied(true);
+                        island.remove(victim);
+                    }
+                }
+
+                if (victim instanceof Horse){
+                    if (chance <= 40){
+                        ((Bear) predator).setSaturation(((Bear) predator).getSaturation() + animalMaking.animalKg(Horse.class));
+                        ((Horse) victim).setDied(true);
+                        island.remove(victim);
+                    }
+                }
+
+                if (victim instanceof Deer){
+                    if (chance <= 80){
+                        ((Bear) predator).setSaturation(((Bear) predator).getSaturation() + animalMaking.animalKg(Deer.class));
+                        ((Deer) victim).setDied(true);
+                        island.remove(victim);
+                    }
+                }
+
+                if (victim instanceof Rabbit){
+                    if (chance <= 80){
+                        ((Bear) predator).setSaturation(((Bear) predator).getSaturation() + animalMaking.animalKg(Rabbit.class));
+                        ((Rabbit) victim).setDied(true);
+                        island.remove(victim);
+                    }
+                }
+
+                if (victim instanceof Mouse){
+                    if (chance <= 90){
+                        ((Bear) predator).setSaturation(((Bear) predator).getSaturation() + animalMaking.animalKg(Mouse.class));
+                        ((Mouse) victim).setDied(true);
+                        island.remove(victim);
+                    }
+                }
+
+                if (victim instanceof Goat){
+                    if (chance <= 70){
+                        ((Bear) predator).setSaturation(((Bear) predator).getSaturation() + animalMaking.animalKg(Goat.class));
+                        ((Goat) victim).setDied(true);
+                        island.remove(victim);
+                    }
+                }
+
+                if (victim instanceof Sheep){
+                    if (chance <= 70){
+                        ((Bear) predator).setSaturation(((Bear) predator).getSaturation() + animalMaking.animalKg(Sheep.class));
+                        ((Sheep) victim).setDied(true);
+                        island.remove(victim);
+                    }
+                }
+
+                if (victim instanceof Boar){
+                    if (chance <= 50){
+                        ((Bear) predator).setSaturation(((Bear) predator).getSaturation() + animalMaking.animalKg(Boar.class));
+                        ((Boar) victim).setDied(true);
+                        island.remove(victim);
+                    }
+                }
+
+                if (victim instanceof  Buffalo){
+                    if (chance <= 20){
+                        ((Bear) predator).setSaturation(((Bear) predator).getSaturation() + animalMaking.animalKg(Buffalo.class));
+                        ((Buffalo) victim).setDied(true);
+                        island.remove(victim);
+                    }
+                }
+
+                if (victim instanceof Duck){
+                    if (chance <= 10){
+                        ((Bear) predator).setSaturation(((Bear) predator).getSaturation() + animalMaking.animalKg(Duck.class));
+                        ((Duck) victim).setDied(true);
+                        island.remove(victim);
+                    }
+                }
+            }
+        }
+
+        if (predator instanceof Eagle){
+            saturation = ((Eagle) predator).getSaturation();
+            fullSaturation = animalMaking.saturation(Eagle.class);
+            if (victim instanceof Fox){
+                if (chance <= 10){
+                    ((Eagle) predator).setSaturation(fullSaturation);
+                    ((Fox) victim).setDied(true);
+                    island.remove(victim);
+                }
+            }
+
+            if (victim instanceof Rabbit){
+                if (chance <= 90){
+                    ((Eagle) predator).setSaturation(fullSaturation);
+                    ((Rabbit) victim).setDied(true);
+                    island.remove(victim);
+                }
+            }
+
+            if (victim instanceof Mouse){
+                if (chance <= 90){
+                    ((Eagle) predator).setSaturation(((Eagle) predator).getSaturation() + animalMaking.animalKg(Mouse.class));
+                    ((Mouse) victim).setDied(true);
+                    island.remove(victim);
+                }
+            }
+
+            if (victim instanceof Duck){
+                if (chance <= 80){
+                    ((Eagle) predator).setSaturation(fullSaturation);
+                    ((Duck) victim).setDied(true);
+                    island.remove(victim);
+                }
+            }
+        }
 
 
     }
