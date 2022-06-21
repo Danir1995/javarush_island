@@ -3,15 +3,16 @@ package com.javarush.island;
 import com.javarush.island.Carnivores.*;
 import com.javarush.island.Herbivores.*;
 import com.javarush.island.Plants.Plants;
+import com.javarush.island.abstractClasses.Animal;
 import com.javarush.island.abstractClasses.BasicItem;
-import com.javarush.island.abstractClasses.Carnivores;
-import com.javarush.island.abstractClasses.Herbivores;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     public static AnimalMaking animalMaking = new AnimalMaking();
+    public static AnimalEating animalEating = new AnimalEating();
+    public static AnimalMovements animals = new AnimalMovements();
     private static int[][] island = null;
     private static int[][] copyIsland = null;
     private static List<BasicItem> basicItemList;
@@ -19,72 +20,67 @@ public class Main {
     private static ThreadLocalRandom chooseYourDestiny = ThreadLocalRandom.current();
 
     public static void main(String[] args) {
-        AnimalMovements animals = new AnimalMovements();
-        AnimalEating animalEating = new AnimalEating();
-
         island = dialogAndRules(island);
-
-        for (int i = 0; i < island.length; i++) {
-            for (int j = 0; j < island[0].length; j++) {
-                mapOfAnimals.put("x" + i + "y" + j, basicItemList = allAnimalsCreator(i, j));
-                System.out.print("["+ (basicItemList.size()) + "]");
-            }
-            System.out.println();
-        }
-
+        makeLife();
+        showIsland();
         System.out.println("=====================================================================");
-
         animals.chooseSide(island, mapOfAnimals);
+        showIsland();
+        letsHunt();
+        System.out.println("=====================================================================");
+        cleanIslandFromDeadBodies();
+        showIsland();
+    }
 
-        for (int i = 0; i < island.length; i++) {
-            for (int j = 0; j < island[0].length; j++) {
-                System.out.print("["+ (mapOfAnimals.get("x" + i + "y" + j).size()) + "]");
-            }
-            System.out.println();
-        }
-
+    private static void letsHunt(){
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
                 List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
                 for (int carnivore = 0; carnivore < islandSquare.size(); carnivore++) {
 
-                        for (int herbivore = 0; herbivore < islandSquare.size(); herbivore++) {
-//                            if (islandSquare.get(carnivore) instanceof Carnivores) {
-                            int timeToEat = chooseYourDestiny.nextInt(1, 101);
-                            animalEating.eaten(islandSquare,islandSquare.get(carnivore), islandSquare.get(herbivore), timeToEat);
-//                            if (islandSquare.get(carnivore) instanceof Carnivores) {
-//                                if (((Carnivores) islandSquare.get(carnivore)).getSaturation() >= animalMaking.saturation(islandSquare.get(carnivore).getClass())) {
-//                                    break;
-//                                }
-//                            }
-
-//                        }
+                    for (int herbivore = 0; herbivore < islandSquare.size(); herbivore++) {
+                        int timeToEat = chooseYourDestiny.nextInt(1, 101);
+                        if (animalEating.eaten(islandSquare.get(carnivore), islandSquare.get(herbivore), timeToEat)){
+                            islandSquare.remove(herbivore);
+                            break;
+                        }
                     }
                 }
             }
         }
-        System.out.println("=====================================================================");
+    }
+
+    private static void cleanIslandFromDeadBodies(){
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
+                for (int a = 0; a < mapOfAnimals.get("x" + i + "y" + j).size(); a++ ) {
+                    if (mapOfAnimals.get("x" + i + "y" + j).get(a) instanceof Animal){
+                        if ( ((Animal) mapOfAnimals.get("x" + i + "y" + j).get(a)).isDied = true){
+                            mapOfAnimals.get("x" + i + "y" + j).remove(mapOfAnimals.get("x" + i + "y" + j).get(a));
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-                    System.out.print("[" + (mapOfAnimals.get("x" + i + "y" + j).size()) + "]");
+    private static void makeLife(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                mapOfAnimals.put("x" + i + "y" + j, basicItemList = natureCreator(i, j));
+            }
+        }
+    }
+
+    private static void showIsland(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                System.out.print("[" + (mapOfAnimals.get("x" + i + "y" + j).size()) + "]");
             } System.out.println();
         }
     }
 
-    private static void showIsland(BasicItem[][] island){
-        for (int i = 0; i < island.length; i++){
-            for (int j = 0; j < island[i].length; j++){
-                if (island[i][j] == null){
-                    System.out.print("[ ]");
-                }else
-                    System.out.print("["+ (island[i][j].getEmoji()) + "]");
-            }
-            System.out.println();
-        }
-    }
-
-    private static List<BasicItem> allAnimalsCreator(int x, int y){
+    private static List<BasicItem> natureCreator(int x, int y){
         List<BasicItem> all = new ArrayList<>();
         try {
             List<BasicItem> listBear = animalMaking.goCreate(Bear.class, x, y);
