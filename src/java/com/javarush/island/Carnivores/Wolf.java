@@ -13,10 +13,8 @@ import java.lang.annotation.Annotation;
 
 public class Wolf extends Carnivores {
     @Override
-    protected void eat(int chance) {
-        if (chance <= 10){
-
-        }
+    public int getChildren() {
+        return 5;
     }
 
     public Wolf(int x, int y, String emoji) {

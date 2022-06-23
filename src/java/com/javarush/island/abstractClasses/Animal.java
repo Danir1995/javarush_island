@@ -6,7 +6,21 @@ import com.javarush.island.Annotations.CharacteristicsOfAnimal;
 public abstract class Animal extends BasicItem {
    public double saturation;
    public boolean isDied = false;
-   public boolean isAte = false;
+   public boolean isEaten = false;
+   public int children;
+   public boolean gaveBirth;
+
+    public boolean isGaveBirth() {
+        return gaveBirth;
+    }
+
+    public void setGaveBirth(boolean gaveBirth) {
+        this.gaveBirth = gaveBirth;
+    }
+
+    public int getChildren() {
+        return children;
+    }
 
     public Animal(int x, int y, String  emoji) {
         super(x, y, emoji);
@@ -45,12 +59,12 @@ public abstract class Animal extends BasicItem {
         isDied = died;
     }
 
-    public boolean isAte() {
-        return isAte;
+    public boolean isEaten() {
+        return isEaten;
     }
 
-    public void setAte(boolean ate) {
-        isAte = ate;
+    public void setEaten(boolean eaten) {
+        isEaten = eaten;
     }
 
     @Override

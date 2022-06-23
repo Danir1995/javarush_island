@@ -21,13 +21,13 @@ public class AnimalMovements {
     public final int UP = 3;
     public final int DOWN = 4;
 
-    public void chooseSide(int[][] island, Map<String, List<BasicItem>> animalList) {
+    public void chooseSide(int[][] island, Map<String, List<BasicItem>> animalsOnSquare) {
         AnimalMaking animalMaking = new AnimalMaking();
         List<BasicItem> animals;
 
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
-                animals = animalList.get("x" + i + "y" + j);
+                animals = animalsOnSquare.get("x" + i + "y" + j);
                 for (int e = 0; e < animals.size(); e++) {
 
                     int randomSide = chooseSideByNum.nextInt(1, 5);
@@ -37,26 +37,27 @@ public class AnimalMovements {
                             switch (randomSide) {
                                 case LEFT -> {
                                     animals.get(e).setY(j - steps);
-                                    animalList.get("x" + i + "y" + (j - steps)).add(animals.get(e));
+                                    animalsOnSquare.get("x" + i + "y" + (j - steps)).add(animals.get(e));
                                     animals.remove(e);
                                 }
                                 case RIGHT -> {
                                     animals.get(e).setY(j + steps);
-                                    animalList.get("x" + i + "y" + (j + steps)).add(animals.get(e));
+                                    animalsOnSquare.get("x" + i + "y" + (j + steps)).add(animals.get(e));
                                     animals.remove(e);
                                 }
                                 case UP -> {
                                     animals.get(e).setX(i - steps);
-                                    animalList.get("x" + (i - steps) + "y" + j).add(animals.get(e));
+                                    animalsOnSquare.get("x" + (i - steps) + "y" + j).add(animals.get(e));
                                     animals.remove(e);
                                 }
                                 case DOWN -> {
                                     animals.get(e).setX(i + steps);
-                                    animalList.get("x" + (i + steps) + "y" + j).add(animals.get(e));
+                                    animalsOnSquare.get("x" + (i + steps) + "y" + j).add(animals.get(e));
                                     animals.remove(e);
                                 }
                             }
-                        } catch (NullPointerException animalChoseSideToGoOutsideOfIsland) {
+                        } catch (NullPointerException ignored) {
+
                         }
                     }
                 }
@@ -64,4 +65,3 @@ public class AnimalMovements {
         }
     }
 }
-//work on logic if animal want go outside of island

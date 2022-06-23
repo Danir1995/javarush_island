@@ -11,6 +11,11 @@ import java.lang.annotation.Annotation;
 @CharacteristicsOfAnimal(weight = 0.05, amountOfKgForFullSaturation = 0.01, walkingDistance = 1, maxQuantityOfAnimal = 500)
 
 public class Mouse extends Herbivores {
+    @Override
+    public int getChildren() {
+        return 7;
+    }
+
     public Mouse(int x, int y, String emoji) {
         super(x, y, emoji);
     }
