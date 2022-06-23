@@ -8,49 +8,66 @@ import com.javarush.island.abstractClasses.BasicItem;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
+
     public static AnimalMaking animalMaking = new AnimalMaking();
     public static AnimalEating animalEating = new AnimalEating();
     public static AnimalMovements animals = new AnimalMovements();
     public static int maxQuantityOfAnimalsOnSquare = 2545;
+    private static Scanner userChoice = new Scanner(System.in);
     private static int[][] island = null;
     private static List<BasicItem> basicItemList;
     private static Map<String, List<BasicItem>> mapOfAnimals = new HashMap<>();
     private static ThreadLocalRandom chooseYourDestiny = ThreadLocalRandom.current();
     private static AnimalReproduce animalReproduce = new AnimalReproduce();
 
-    public static void main(String[] args) {
-                island = dialogAndRules(island);
-
-                makeLife();
-                showIsland();
-                System.out.println("=====================================================================");
-                animals.chooseSide(island, mapOfAnimals);
-                showIsland();
-                letsHunt();
-                System.out.println("=====================================================================");
-                cleanIslandFromDeadBodies();
-
-                showIsland();
-                System.out.println("Refill");
-                reFillOfGrass();
-                showIsland();
-
-                for (int i = 0; i < island.length; i++) {
-                    for (int j = 0; j < island[0].length; j++) {
-                        List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
-                        animalReproduce.reproduce(islandSquare, i, j, chooseYourDestiny);
-                    }
-                }
-                showIsland();
-                letsHunt();
-                showIsland();
-                die();
-                showIsland();
-
+    public static void main(String[] args) throws InterruptedException {
+        String oneProcess = "=====================================================================";
+        island = dialogAndRules(island);
+        int days = 0;
+        try {
+            days = userChoice.nextInt();
+        }catch (InputMismatchException exception){
+            System.out.println("Please try more, you have to put amount of days(number).");
+            return;
+        }
+        makeLife();
+        System.out.println("Start of life...");
+        for (int day = 0; day < days; day++) {
+            System.out.println("Day" + ++day);
+            System.out.println("State of the island: ");
+            Thread.sleep(1000);
+            showIsland();
+            System.out.println(oneProcess);
+            System.out.println("Animals went to another area...");
+            Thread.sleep(1000);
+            animals.chooseSide(island, mapOfAnimals);
+            showIsland();
+            System.out.println(oneProcess);
+            System.out.println("Natural selection...");
+            Thread.sleep(1000);
+            letsHunt();
+            cleanIslandFromDeadBodies();
+            showIsland();
+            System.out.println(oneProcess);
+            System.out.println("Grass grows on fertile land...");
+            Thread.sleep(1000);
+            reFillOfGrass();
+            showIsland();
+            System.out.println(oneProcess);
+            System.out.println("Reproduction in action...");
+            Thread.sleep(1000);
+            reproduceChildren();
+            showIsland();
+            System.out.println(oneProcess);
+            System.out.println("Hungry animals gonna die...");
+            Thread.sleep(1000);
+            die();
+            cleanIslandFromDeadBodies();
+            showIsland();
+            System.out.println(oneProcess);
+        }
     }
 
     private static void letsHunt(){
@@ -110,6 +127,15 @@ public class Main {
         }
     }
 
+    private static void reproduceChildren(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
+                animalReproduce.reproduce(islandSquare, i, j, chooseYourDestiny);
+            }
+        }
+    }
+
     private static void die(){
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
@@ -118,7 +144,7 @@ public class Main {
                     if (animals.get(a) instanceof Animal){
                         if (((Animal) animals.get(a)).getSaturation() == 0){
                             ((Animal) animals.get(a)).setDied(true);
-                            System.out.println(animals.get(a).getClass().getSimpleName() + " died");
+                            //System.out.println(animals.get(a).toString() + " died");
                         }
                     }
                 }
@@ -141,6 +167,7 @@ public class Main {
             } System.out.println();
         }
         int count = 0;
+        int countBears = 0;
         for (Map.Entry<String ,List<BasicItem>> ent: mapOfAnimals.entrySet()){
             List<BasicItem> basicItemList = ent.getValue();
             for (BasicItem basicItem : basicItemList) {
@@ -148,7 +175,7 @@ public class Main {
                     count += 1;
                 }
             }
-        }System.out.println("animals = " + count);
+        }System.out.println("Total animals = " + count);
     }
 
     private static void showIslandFull(){
@@ -215,15 +242,13 @@ public class Main {
         int width = 20;
         int length = 100;
 
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println("Hello! Welcome to the wild animal world!");
         System.out.println("You have an island 100x20 and a lot of animals!\nDo you want to change size of island?: " );
         System.out.println("YES(1)/NO(2):");
 
         int answer = 0;
         try {
-            answer = scanner.nextInt();
+            answer = userChoice.nextInt();
         }catch (InputMismatchException e){
             System.out.println("Put only numbers 1-for YES or 2-for NO");
         }
@@ -231,23 +256,23 @@ public class Main {
         if (answer == 1) {
             System.out.println("Let's choose the size of the island!\nPlease write width of the island: ");
             try {
-                width = scanner.nextInt();
+                width = userChoice.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("You should put the number! Try 5 min later.");
             }
             System.out.println("Now choose the length of the island");
             try {
-                length = scanner.nextInt();
+                length = userChoice.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("You should put the number! Try 5 min later.");
             }
             System.out.println("You chose size of the island, now island's size is: " + width + "x" + length);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+            System.out.println("Now, please choose how many days do you want to simulate?");
             return island = new int[length][width];
         }else if (answer == 2){
             System.out.println("You chose default option, Island's size is 100x20");
@@ -256,7 +281,7 @@ public class Main {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Quantity of animals: ");
+            System.out.println("Now, please choose how many days do you want to simulate?");
             return island = new int[length][width];
         } else throw new RuntimeException("You didn't choose any option! (YES(1) or NO(2))");
     }

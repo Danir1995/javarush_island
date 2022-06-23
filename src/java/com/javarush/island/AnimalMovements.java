@@ -31,9 +31,10 @@ public class AnimalMovements {
                 for (int e = 0; e < animals.size(); e++) {
 
                     int randomSide = chooseSideByNum.nextInt(1, 5);
-                    if (!animals.get(e).getClass().getSimpleName().equalsIgnoreCase("plants")) {
+                    if ((animals.get(e) instanceof Animal)) {
                         try {
-                            int steps = animalMaking.move(animals.get(e).getClass());
+                            int steps = animals.get(e).getClass().getAnnotation(CharacteristicsOfAnimal.class).walkingDistance();
+
                             switch (randomSide) {
                                 case LEFT -> {
                                     animals.get(e).setY(j - steps);
@@ -57,7 +58,7 @@ public class AnimalMovements {
                                 }
                             }
                         } catch (NullPointerException ignored) {
-
+                        //if animal will choose the side to go to outside of the island - he will stay in the same place
                         }
                     }
                 }
