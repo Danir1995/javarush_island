@@ -1,14 +1,15 @@
 package com.javarush.island.abstractClasses;
 
 import com.javarush.island.Annotations.CharacteristicsOfAnimal;
+import com.javarush.island.Main;
 
 @CharacteristicsOfAnimal
 public abstract class Animal extends BasicItem {
-   public double saturation;
-   public boolean isDied = false;
-   public boolean isEaten = false;
-   public int children;
-   public boolean gaveBirth;
+    private double saturation;
+    private boolean isDied = false;
+    private boolean isEaten = false;
+    private int children;
+    private boolean gaveBirth = false;
 
     public boolean isGaveBirth() {
         return gaveBirth;
@@ -70,9 +71,11 @@ public abstract class Animal extends BasicItem {
     @Override
     public String toString() {
         return "Animal{" +
-                "x=" + x +
-                ", y=" + y +
-                ", emoji='" + emoji + '\'' +
+                "saturation=" + saturation +
+                ", isDied=" + isDied +
+                ", isEaten=" + isEaten +
+                ", children=" + children +
+                ", gaveBirth=" + gaveBirth +
                 '}';
     }
 }

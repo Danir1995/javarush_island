@@ -1,5 +1,6 @@
 package com.javarush.island;
 
+import com.javarush.island.Annotations.CharacteristicsOfAnimal;
 import com.javarush.island.Carnivores.*;
 import com.javarush.island.Herbivores.*;
 import com.javarush.island.Plants.Plants;
@@ -21,6 +22,23 @@ public class Main {
     private static Map<String, List<BasicItem>> mapOfAnimals = new HashMap<>();
     private static ThreadLocalRandom chooseYourDestiny = ThreadLocalRandom.current();
     private static AnimalReproduce animalReproduce = new AnimalReproduce();
+    static int countPlants = 0;
+    static int countAnimals = 0;
+    static int countBears = 0;
+    static int countMouses = 0;
+    static int countBoas = 0;
+    static int countEagles =0;
+    static int countFox = 0;
+    static int countWolfs = 0;
+    static int countBoar = 0;
+    static int countBuffalos = 0;
+    static int countCaterpillars = 0;
+    static int countDeers = 0;
+    static int countDuck = 0;
+    static int countGoat = 0;
+    static int countHorse = 0;
+    static int countRabbit = 0;
+    static int countSheep = 0;
 
     public static void main(String[] args) throws InterruptedException {
         String oneProcess = "=====================================================================";
@@ -35,44 +53,54 @@ public class Main {
         makeLife();
         System.out.println("Start of life...");
         for (int day = 0; day < days; day++) {
+            prepareToReproduce();
             System.out.println("Day" + ++day);
             System.out.println("State of the island: ");
             Thread.sleep(1000);
             showIsland();
+            zeroingOfCounters();
             System.out.println(oneProcess);
             System.out.println("Animals went to another area...");
             Thread.sleep(1000);
             animals.chooseSide(island, mapOfAnimals);
             showIsland();
+            zeroingOfCounters();
             System.out.println(oneProcess);
             System.out.println("Natural selection...");
             Thread.sleep(1000);
             letsHunt();
             cleanIslandFromDeadBodies();
             showIsland();
+            zeroingOfCounters();
             System.out.println(oneProcess);
             System.out.println("Grass grows on fertile land...");
+            getHungry();
             Thread.sleep(1000);
             reFillOfGrass();
             showIsland();
+
             System.out.println(oneProcess);
             System.out.println("Reproduction in action...");
             Thread.sleep(1000);
             reproduceChildren();
+
             showIsland();
+            zeroingOfCounters();
             System.out.println(oneProcess);
+            getHungry();
             System.out.println("Hungry animals gonna die...");
             Thread.sleep(1000);
             die();
             cleanIslandFromDeadBodies();
             showIsland();
+            zeroingOfCounters();
             System.out.println(oneProcess);
         }
     }
 
     private static void letsHunt(){
-        for (int i = 0; i < island.length; i++) {
-            for (int j = 0; j < island[0].length; j++) {
+        for (int i = 0; i < island.length-1; i++) {
+            for (int j = 0; j < island[0].length-1; j++) {
                 List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
 
                 for (int attacker = 0; attacker < islandSquare.size(); attacker++) {
@@ -105,7 +133,7 @@ public class Main {
                     List<BasicItem> nature = mapOfAnimals.get("x" + i + "y" + j);
                     Object uselessInstance = mapOfAnimals.get("x" + i + "y" + j).get(a);
                     if (uselessInstance instanceof Animal){
-                        if (((Animal)uselessInstance).isDied){
+                        if (((Animal)uselessInstance).isDied()){
                             nature.remove(uselessInstance);
                         }
                     }
@@ -127,11 +155,24 @@ public class Main {
         }
     }
 
+    public static void prepareToReproduce(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                List<BasicItem> animals = mapOfAnimals.get("x" + i + "y" + j);
+                for (BasicItem animalPrepared: animals){
+                    if (animalPrepared instanceof Animal){
+                        ((Animal) animalPrepared).setGaveBirth(false);
+                    }
+                }
+            }
+        }
+    }
+
     private static void reproduceChildren(){
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
                 List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
-                animalReproduce.reproduce(islandSquare, i, j, chooseYourDestiny);
+                islandSquare = animalReproduce.reproduce(islandSquare, i, j, chooseYourDestiny);
             }
         }
     }
@@ -144,7 +185,6 @@ public class Main {
                     if (animals.get(a) instanceof Animal){
                         if (((Animal) animals.get(a)).getSaturation() == 0){
                             ((Animal) animals.get(a)).setDied(true);
-                            //System.out.println(animals.get(a).toString() + " died");
                         }
                     }
                 }
@@ -160,32 +200,131 @@ public class Main {
         }
     }
 
-    private static void showIsland(){
+    public static void showIsland(){
         for (int i = 0; i < island.length; i++) {
             for (int j = 0; j < island[0].length; j++) {
                 System.out.print("[" + (mapOfAnimals.get("x" + i + "y" + j).size()) + "]");
             } System.out.println();
         }
-        int count = 0;
-        int countBears = 0;
-        for (Map.Entry<String ,List<BasicItem>> ent: mapOfAnimals.entrySet()){
-            List<BasicItem> basicItemList = ent.getValue();
+
+        for (Map.Entry<String ,List<BasicItem>> allAnimals: mapOfAnimals.entrySet()){
+            List<BasicItem> basicItemList = allAnimals.getValue();
             for (BasicItem basicItem : basicItemList) {
-                if (basicItem != null) {
-                    count += 1;
+
+                if (basicItem instanceof Plants) {
+                    countPlants += 1;
+                }
+                if (basicItem instanceof Animal){
+                    countAnimals += 1;
+                }
+                if(basicItem instanceof Bear){
+                    countBears += 1;
+                }
+                if (basicItem instanceof Mouse){
+                    countMouses += 1;
+                }
+                if (basicItem instanceof Boa) {
+                    countBoas += 1;
+                }
+                if (basicItem instanceof Horse){
+                    countHorse  += 1;
+                }
+                if (basicItem instanceof Deer){
+                    countDeers += 1;
+                }
+                if (basicItem instanceof Duck){
+                    countDuck += 1;
+                }
+                if (basicItem instanceof Caterpillar){
+                    countCaterpillars += 1;
+                }
+                if (basicItem instanceof Boar){
+                    countBoar += 1;
+                }
+                if (basicItem instanceof Wolf){
+                    countWolfs += 1;
+                }
+                if (basicItem instanceof Fox){
+                    countFox += 1;
+                }
+                if (basicItem instanceof Buffalo){
+                    countBuffalos  += 1;
+                }
+                if (basicItem instanceof Goat){
+                    countGoat  += 1;
+                }
+                if (basicItem instanceof Sheep){
+                    countSheep  += 1;
+                }
+                if (basicItem instanceof Eagle){
+                    countEagles  += 1;
+                }
+                if (basicItem instanceof Rabbit){
+                    countRabbit  += 1;
                 }
             }
-        }System.out.println("Total animals = " + count);
+        }
+        System.out.println("Total animals = " + countAnimals);
+        System.out.println("Plants = " + countPlants);
+        System.out.println("Bears = " + countBears);
+        System.out.println("Boars = " + countBoar);
+        System.out.println("Buffalos = " + countBuffalos);
+        System.out.println("Foxes = " + countFox);
+        System.out.println("Horses = " + countHorse);
+        System.out.println("Wolfs = " + countWolfs);
+        System.out.println("Deers = " + countDeers);
+        System.out.println("Caterpillars = " + countCaterpillars);
+        System.out.println("Ducks = " + countDuck);
+        System.out.println("Rabbits = " + countRabbit);
+        System.out.println("Mouses = " + countMouses);
+        System.out.println("Boas = " + countBoas);
+        System.out.println("Goats = " + countGoat);
+        System.out.println("Sheeps = " + countSheep);
+        System.out.println("Eagles = " + countEagles);
     }
 
-    private static void showIslandFull(){
-        for (int i = 0; i < island.length; i++) {
-            for (int j = 0; j < island[0].length; j++) {
-                for (int a = 0; a < mapOfAnimals.get("x" + i + "y" + j).size(); a++) {
-                    System.out.print("[" + (mapOfAnimals.get("x" + i + "y" + j).size()) + "]");
-                }
-            } System.out.println();
+    private static void zeroingOfCounters(){
+        countPlants = 0;
+        countAnimals = 0;
+        countBears = 0;
+        countMouses = 0;
+        countBoas = 0;
+        countEagles =0;
+        countFox = 0;
+        countWolfs = 0;
+        countBoar = 0;
+        countBuffalos = 0;
+        countCaterpillars = 0;
+        countDeers = 0;
+        countDuck = 0;
+        countGoat = 0;
+        countHorse = 0;
+        countRabbit = 0;
+        countSheep = 0;
+    }
+
+    public static int getCounters(BasicItem creatures){
+        if (creatures instanceof Animal) {
+            if (creatures instanceof Bear) return countBears;
+            if (creatures instanceof Mouse) return countMouses;
+            if (creatures instanceof Boa) return countBoas;
+            if (creatures instanceof Eagle) return countEagles;
+            if (creatures instanceof Fox) return countFox;
+            if (creatures instanceof Wolf) return countWolfs;
+            if (creatures instanceof Boar) return countBoar;
+            if (creatures instanceof Buffalo) return countBuffalos;
+            if (creatures instanceof Caterpillar) return countCaterpillars;
+            if (creatures instanceof Deer) return countDeers;
+            if (creatures instanceof Duck) return countDuck;
+            if (creatures instanceof Goat) return countGoat;
+            if (creatures instanceof Horse) return countHorse;
+            if (creatures instanceof Rabbit) return countRabbit;
+            if (creatures instanceof Sheep) return countSheep;
         }
+        if (creatures instanceof Plants){
+            return countPlants;
+        }
+        else return countAnimals;
     }
 
     private static List<BasicItem> natureCreator(int x, int y){
@@ -205,9 +344,11 @@ public class Main {
             List<BasicItem> listMouse = animalMaking.goCreate(Mouse.class, x, y);
             List<BasicItem> listRabbit = animalMaking.goCreate(Rabbit.class, x, y);
             List<BasicItem> listSheep = animalMaking.goCreate(Sheep.class, x, y);
+            List<BasicItem> listBoar = animalMaking.goCreate(Boar.class, x, y);
 
             all.addAll(listBear);
             all.addAll(listBoa);
+            all.addAll(listBoar);
             all.addAll(listEagle);
             all.addAll(listFox);
             all.addAll(listWolf);
@@ -236,6 +377,23 @@ public class Main {
             grass.add(new Plants(x, y, "\uD83C\uDF31"));
         }
         return grass;
+    }
+
+    private static void getHungry(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                basicItemList = mapOfAnimals.get("x" + i + "y" + j);
+                for (int a = 0; a < basicItemList.size(); a++) {
+                    if (basicItemList.get(a) instanceof Animal){
+                        if (( basicItemList.get(a).getClass().getAnnotation(CharacteristicsOfAnimal.class).amountOfKgForFullSaturation() > 1)) {
+                            ((Animal) basicItemList.get(a)).setSaturation(((Animal) basicItemList.get(a)).getSaturation() - 1);
+                        }else if (basicItemList.get(a).getClass().getAnnotation(CharacteristicsOfAnimal.class).amountOfKgForFullSaturation() < 1){
+                            ((Animal) basicItemList.get(a)).setSaturation(((Animal) basicItemList.get(a)).getSaturation() - 0.005);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public static int[][] dialogAndRules(int[][] island){

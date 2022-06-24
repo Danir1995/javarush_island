@@ -1,43 +1,46 @@
 package com.javarush.island;
 
+import com.javarush.island.Annotations.CharacteristicsOfAnimal;
 import com.javarush.island.Carnivores.Bear;
 import com.javarush.island.abstractClasses.Animal;
 import com.javarush.island.abstractClasses.BasicItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AnimalReproduce {
     AnimalMaking animalMaking = new AnimalMaking();
+    Factory factory = new Factory();
 
-    public List<BasicItem> reproduce(List<BasicItem> animals, int x, int y, ThreadLocalRandom random){
+    public List<BasicItem> reproduce(List<BasicItem> animals, int x, int y, ThreadLocalRandom chance) {
 
-        List<BasicItem> childrenOfAnimals = new ArrayList<>();
-        for (int male = 0; male < animals.size(); male++){
-            for (int female = 1; female < animals.size(); female++) {
-                if (animals.get(male) instanceof Animal){
-                    if (animals.get(female) instanceof Animal){
-                        int letsReproduce = random.nextInt(1, 100);
-                               if (animals.size() < Main.maxQuantityOfAnimalsOnSquare) {
-                                   if (!((Animal) animals.get(female)).isGaveBirth()) {
-                                       if (letsReproduce <= 10) {
-                                   if (animals.get(male).getClass().getSimpleName().equals(animals.get(female).getClass().getSimpleName())) {
-                                       for (int i = 0; i < ((Animal) animals.get(female)).getChildren(); i++) {
-                                           ((Animal) animals.get(female)).setGaveBirth(true);
-                                           animals.add(new Animal(x, y, animals.get(male).getEmoji()) {
-                                           });
-                                       }
-                                       break;
+        List<BasicItem> children = animals;
+
+        for (int man = 0; man < animals.size(); man++) {
+            BasicItem male = animals.get(man);
+            for (int fem = 1; fem < children.size(); fem++) {
+                BasicItem female = children.get(fem);
+                if (male instanceof Animal) {
+                    if (female instanceof Animal) {
+                        if (!((Animal) female).isGaveBirth() && male.getEmoji().equals(female.getEmoji())) {
+                            int letsReproduce = chance.nextInt(1, 100);
+                            int howManyChildren = ((Animal) male).getChildren();
+                            int quantityOfChildren = chance.nextInt(0, howManyChildren);
+                            if (letsReproduce < 10 && animals.size() < Main.maxQuantityOfAnimalsOnSquare && Main.getCounters(male) < animalMaking.animalQuantity(male.getClass())) {
+                                   for (int j = 0; j < quantityOfChildren; j++) {
+                                       animals.add(factory.create(male, x, y));
                                    }
+                                   ((Animal) female).setGaveBirth(true);
+                                   break;
                                }
                             }
                         }
-                    }
 
+                    }
                 }
             }
-        }
         return animals;
     }
 }

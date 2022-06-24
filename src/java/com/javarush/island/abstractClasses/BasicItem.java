@@ -3,8 +3,8 @@ package com.javarush.island.abstractClasses;
 import java.lang.annotation.Annotation;
 
 public abstract class BasicItem {
-    int x;
-    int y;
+    private int x;
+    private int y;
     String emoji;
 
     public BasicItem(int x, int y, String  emoji) {

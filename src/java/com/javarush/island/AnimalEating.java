@@ -11,11 +11,11 @@ public class AnimalEating {
     double fullSaturation;
 
     public boolean eaten(Object animal, Object victim, int chance) {
-
-        if (animal instanceof Wolf) {
+        if (animal instanceof Animal) {
             saturation = ((Animal) animal).getSaturation();
             fullSaturation = animalMaking.saturation(animal.getClass());
-
+        }
+        if (animal instanceof Wolf) {
             if (saturation < fullSaturation) {
                 if (victim instanceof Horse) {
                     if (chance <= 10) {
@@ -91,9 +91,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Boa) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
-
             if (saturation < fullSaturation) {
                 if (victim instanceof Fox) {
                     if (chance <= 15) {
@@ -127,8 +124,6 @@ public class AnimalEating {
             } else return true;
         }
         if (animal instanceof Fox) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             if (saturation < fullSaturation) {
                 if (victim instanceof Rabbit) {
                     if (chance <= 70) {
@@ -163,8 +158,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Bear) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             if (saturation < fullSaturation) {
                 if (victim instanceof Boa) {
                     if (chance <= 80) {
@@ -246,8 +239,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Eagle) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             if (saturation < fullSaturation) {
                 if (victim instanceof Fox) {
                     if (chance <= 10) {
@@ -283,8 +274,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Horse) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             if (saturation < fullSaturation) {
                 if (victim instanceof Plants) {
                     ((Horse) animal).setSaturation(((Horse) animal).getSaturation() + ((Plants) victim).getWeight());
@@ -295,8 +284,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Deer) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             if (saturation < fullSaturation) {
                 if (victim instanceof Plants) {
                     ((Deer) animal).setSaturation(((Deer) animal).getSaturation() + ((Plants) victim).getWeight());
@@ -306,8 +293,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Rabbit) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             if (saturation < fullSaturation) {
                 if (victim instanceof Plants) {
                     ((Rabbit) animal).setSaturation(fullSaturation);
@@ -318,8 +303,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Mouse) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             saturation = ((Mouse) animal).getSaturation();
             fullSaturation = animalMaking.saturation(Mouse.class);
             if (saturation < fullSaturation) {
@@ -332,8 +315,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Sheep) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             if (saturation < fullSaturation) {
                 if (victim instanceof Plants) {
                     ((Sheep) animal).setSaturation(((Sheep) animal).getSaturation() + ((Plants) victim).getWeight());
@@ -344,8 +325,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Boar) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             if (saturation < fullSaturation) {
                 if (victim instanceof Plants) {
                     ((Boar) animal).setSaturation(((Boar) animal).getSaturation() + ((Plants) victim).getWeight());
@@ -367,8 +346,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Buffalo) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             if (saturation < fullSaturation) {
                 if (victim instanceof Plants) {
                     ((Buffalo) animal).setSaturation(((Buffalo) animal).getSaturation() + ((Plants) victim).getWeight());
@@ -394,8 +371,6 @@ public class AnimalEating {
         }
 
         if (animal instanceof Caterpillar) {
-            saturation = ((Animal) animal).getSaturation();
-            fullSaturation = animalMaking.saturation(animal.getClass());
             if (saturation < fullSaturation) {
                 if (victim instanceof Plants) {
                     ((Caterpillar) animal).setSaturation(fullSaturation);
