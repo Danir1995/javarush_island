@@ -11,7 +11,6 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-
     public static AnimalMaking animalMaking = new AnimalMaking();
     public static AnimalEating animalEating = new AnimalEating();
     public static AnimalMovements animals = new AnimalMovements();
@@ -98,106 +97,52 @@ public class Main {
         }
     }
 
-    private static void letsHunt(){
-        for (int i = 0; i < island.length-1; i++) {
-            for (int j = 0; j < island[0].length-1; j++) {
-                List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
+    public static int[][] dialogAndRules(int[][] island){
+        int width = 20;
+        int length = 100;
 
-                for (int attacker = 0; attacker < islandSquare.size(); attacker++) {
-                    for (int victim = 0; victim < islandSquare.size(); victim++) {
+        System.out.println("Hello! Welcome to the wild animal world!");
+        System.out.println("You have an island 100x20 and a lot of animals!\nDo you want to change size of island?: " );
+        System.out.println("YES(1)/NO(2):");
 
-                        int timeToEat = chooseYourDestiny.nextInt(1, 101);
-                        if (animalEating.eaten(islandSquare.get(attacker), islandSquare.get(victim), timeToEat)) {
-                            if (islandSquare.get(victim) instanceof Animal){
-                                if (((Animal) islandSquare.get(victim)).isDied()){
-                                    islandSquare.remove(victim);
-                                }
-                            }
-                            if (islandSquare.get(victim) instanceof Plants){
-                                if (((Plants) islandSquare.get(victim)).isEaten()){
-                                    islandSquare.remove(victim);
-                                }
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
+        int answer = 0;
+        try {
+            answer = userChoice.nextInt();
+        }catch (InputMismatchException e){
+            System.out.println("Put only numbers 1-for YES or 2-for NO");
         }
-    }
 
-    private static void cleanIslandFromDeadBodies(){
-        for (int i = 0; i < island.length; i++) {
-            for (int j = 0; j < island[0].length; j++) {
-                for (int a = 0; a < mapOfAnimals.get("x" + i + "y" + j).size(); a++ ) {
-                    List<BasicItem> nature = mapOfAnimals.get("x" + i + "y" + j);
-                    Object uselessInstance = mapOfAnimals.get("x" + i + "y" + j).get(a);
-                    if (uselessInstance instanceof Animal){
-                        if (((Animal)uselessInstance).isDied()){
-                            nature.remove(uselessInstance);
-                        }
-                    }
-                    if (uselessInstance instanceof Plants){
-                        if (((Plants) uselessInstance).isEaten()){
-                            nature.remove(uselessInstance);
-                        }
-                    }
-                }
+        if (answer == 1) {
+            System.out.println("Let's choose the size of the island!\nPlease write width of the island: ");
+            try {
+                width = userChoice.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("You should put the number! Try 5 min later.");
             }
-        }
-    }
-
-    private static void makeLife(){
-        for (int i = 0; i < island.length; i++) {
-            for (int j = 0; j < island[0].length; j++) {
-                mapOfAnimals.put("x" + i + "y" + j, basicItemList = natureCreator(i, j));
+            System.out.println("Now choose the length of the island");
+            try {
+                length = userChoice.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("You should put the number! Try 5 min later.");
             }
-        }
-    }
-
-    public static void prepareToReproduce(){
-        for (int i = 0; i < island.length; i++) {
-            for (int j = 0; j < island[0].length; j++) {
-                List<BasicItem> animals = mapOfAnimals.get("x" + i + "y" + j);
-                for (BasicItem animalPrepared: animals){
-                    if (animalPrepared instanceof Animal){
-                        ((Animal) animalPrepared).setGaveBirth(false);
-                    }
-                }
+            System.out.println("You chose size of the island, now island's size is: " + width + "x" + length);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }
-    }
-
-    private static void reproduceChildren(){
-        for (int i = 0; i < island.length; i++) {
-            for (int j = 0; j < island[0].length; j++) {
-                List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
-                islandSquare = animalReproduce.reproduce(islandSquare, i, j, chooseYourDestiny);
+            System.out.println("Now, please choose how many days do you want to simulate?");
+            return island = new int[length][width];
+        }else if (answer == 2){
+            System.out.println("You chose default option, Island's size is 100x20");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }
-    }
-
-    private static void die(){
-        for (int i = 0; i < island.length; i++) {
-            for (int j = 0; j < island[0].length; j++) {
-                List<BasicItem> animals = mapOfAnimals.get("x" + i + "y" + j);
-                for (int a = 0; a < animals.size(); a++){
-                    if (animals.get(a) instanceof Animal){
-                        if (((Animal) animals.get(a)).getSaturation() == 0){
-                            ((Animal) animals.get(a)).setDied(true);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private static void reFillOfGrass(){
-        for (int i = 0; i < island.length; i++) {
-            for (int j = 0; j < island[0].length; j++) {
-                mapOfAnimals.get("x" + i + "y" + j).addAll(grassGrows(i, j));
-            }
-        }
+            System.out.println("Now, please choose how many days do you want to simulate?");
+            return island = new int[length][width];
+        } else throw new RuntimeException("You didn't choose any option! (YES(1) or NO(2))");
     }
 
     public static void showIsland(){
@@ -283,24 +228,17 @@ public class Main {
         System.out.println("Eagles = " + countEagles);
     }
 
-    private static void zeroingOfCounters(){
-        countPlants = 0;
-        countAnimals = 0;
-        countBears = 0;
-        countMouses = 0;
-        countBoas = 0;
-        countEagles =0;
-        countFox = 0;
-        countWolfs = 0;
-        countBoar = 0;
-        countBuffalos = 0;
-        countCaterpillars = 0;
-        countDeers = 0;
-        countDuck = 0;
-        countGoat = 0;
-        countHorse = 0;
-        countRabbit = 0;
-        countSheep = 0;
+    public static void prepareToReproduce(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                List<BasicItem> animals = mapOfAnimals.get("x" + i + "y" + j);
+                for (BasicItem animalPrepared: animals){
+                    if (animalPrepared instanceof Animal){
+                        ((Animal) animalPrepared).setGaveBirth(false);
+                    }
+                }
+            }
+        }
     }
 
     public static int getCounters(BasicItem creatures){
@@ -325,6 +263,117 @@ public class Main {
             return countPlants;
         }
         else return countAnimals;
+    }
+
+    private static void letsHunt(){
+        for (int i = 0; i < island.length-1; i++) {
+            for (int j = 0; j < island[0].length-1; j++) {
+                List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
+
+                for (int attacker = 0; attacker < islandSquare.size(); attacker++) {
+                    for (int victim = 0; victim < islandSquare.size(); victim++) {
+
+                        int timeToEat = chooseYourDestiny.nextInt(1, 101);
+                        if (animalEating.eaten(islandSquare.get(attacker), islandSquare.get(victim), timeToEat)) {
+                            if (islandSquare.get(victim) instanceof Animal){
+                                if (((Animal) islandSquare.get(victim)).isDied()){
+                                    islandSquare.remove(victim);
+                                }
+                            }
+                            if (islandSquare.get(victim) instanceof Plants){
+                                if (((Plants) islandSquare.get(victim)).isEaten()){
+                                    islandSquare.remove(victim);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void cleanIslandFromDeadBodies(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                for (int a = 0; a < mapOfAnimals.get("x" + i + "y" + j).size(); a++ ) {
+                    List<BasicItem> nature = mapOfAnimals.get("x" + i + "y" + j);
+                    Object uselessInstance = mapOfAnimals.get("x" + i + "y" + j).get(a);
+                    if (uselessInstance instanceof Animal){
+                        if (((Animal)uselessInstance).isDied()){
+                            nature.remove(uselessInstance);
+                        }
+                    }
+                    if (uselessInstance instanceof Plants){
+                        if (((Plants) uselessInstance).isEaten()){
+                            nature.remove(uselessInstance);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void makeLife(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                mapOfAnimals.put("x" + i + "y" + j, basicItemList = natureCreator(i, j));
+            }
+        }
+    }
+
+    private static void reproduceChildren(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                List<BasicItem> islandSquare = mapOfAnimals.get("x" + i + "y" + j);
+                islandSquare = animalReproduce.reproduce(islandSquare, i, j, chooseYourDestiny, island);
+                mapOfAnimals.put(("x" + i + "y" + j), islandSquare);
+            }
+        }
+        zeroingOfCounters();
+    }
+
+    private static void die(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                List<BasicItem> animals = mapOfAnimals.get("x" + i + "y" + j);
+                for (int a = 0; a < animals.size(); a++){
+                    if (animals.get(a) instanceof Animal){
+                        if (((Animal) animals.get(a)).getSaturation() == 0){
+                            ((Animal) animals.get(a)).setDied(true);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void reFillOfGrass(){
+        for (int i = 0; i < island.length; i++) {
+            for (int j = 0; j < island[0].length; j++) {
+                mapOfAnimals.get("x" + i + "y" + j).addAll(grassGrows(i, j));
+            }
+        }
+    }
+
+    private static void zeroingOfCounters(){
+        countPlants = 0;
+        countAnimals = 0;
+        countBears = 0;
+        countMouses = 0;
+        countBoas = 0;
+        countEagles =0;
+        countFox = 0;
+        countWolfs = 0;
+        countBoar = 0;
+        countBuffalos = 0;
+        countCaterpillars = 0;
+        countDeers = 0;
+        countDuck = 0;
+        countGoat = 0;
+        countHorse = 0;
+        countRabbit = 0;
+        countSheep = 0;
     }
 
     private static List<BasicItem> natureCreator(int x, int y){
@@ -394,53 +443,5 @@ public class Main {
                 }
             }
         }
-    }
-
-    public static int[][] dialogAndRules(int[][] island){
-        int width = 20;
-        int length = 100;
-
-        System.out.println("Hello! Welcome to the wild animal world!");
-        System.out.println("You have an island 100x20 and a lot of animals!\nDo you want to change size of island?: " );
-        System.out.println("YES(1)/NO(2):");
-
-        int answer = 0;
-        try {
-            answer = userChoice.nextInt();
-        }catch (InputMismatchException e){
-            System.out.println("Put only numbers 1-for YES or 2-for NO");
-        }
-
-        if (answer == 1) {
-            System.out.println("Let's choose the size of the island!\nPlease write width of the island: ");
-            try {
-                width = userChoice.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("You should put the number! Try 5 min later.");
-            }
-            System.out.println("Now choose the length of the island");
-            try {
-                length = userChoice.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("You should put the number! Try 5 min later.");
-            }
-            System.out.println("You chose size of the island, now island's size is: " + width + "x" + length);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Now, please choose how many days do you want to simulate?");
-            return island = new int[length][width];
-        }else if (answer == 2){
-            System.out.println("You chose default option, Island's size is 100x20");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Now, please choose how many days do you want to simulate?");
-            return island = new int[length][width];
-        } else throw new RuntimeException("You didn't choose any option! (YES(1) or NO(2))");
     }
 }
