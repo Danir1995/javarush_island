@@ -14,51 +14,36 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AnimalMaking {
-
     public String createAnimalEmoji(Class<?> animal){
-
-        if (!animal.isAnnotationPresent(Emoji.class)){
-            throw new RuntimeException("It is not animal");
-        }
         Emoji emoji = (Emoji) animal.getAnnotation(Emoji.class);
         return emoji.emoji();
     }
 
     public int animalQuantity(Class animal){
-        if (!animal.isAnnotationPresent(CharacteristicsOfAnimal.class)){
-            throw new RuntimeException("It is not animal");
-        }
         CharacteristicsOfAnimal quantity = (CharacteristicsOfAnimal) animal.getAnnotation(CharacteristicsOfAnimal.class);
         return quantity.maxQuantityOfAnimal();
     }
 
     public double animalKg(Class animal){
-        if (!animal.isAnnotationPresent(CharacteristicsOfAnimal.class)){
-            throw new RuntimeException("It is not animal");
-        }
         CharacteristicsOfAnimal weightOfAnimal = (CharacteristicsOfAnimal) animal.getAnnotation(CharacteristicsOfAnimal.class);
         return weightOfAnimal.weight();
     }
 
     public double saturation(Class animal){
-        if (!animal.isAnnotationPresent(CharacteristicsOfAnimal.class)){
-            throw new RuntimeException("It is not animal");
-        }
         CharacteristicsOfAnimal saturation = (CharacteristicsOfAnimal) animal.getAnnotation(CharacteristicsOfAnimal.class);
         return saturation.amountOfKgForFullSaturation();
     }
 
     public int move(Class animal){
-        if (!animal.isAnnotationPresent(CharacteristicsOfAnimal.class)){
-            throw new RuntimeException("It is not animal");
-        }
         CharacteristicsOfAnimal steps = (CharacteristicsOfAnimal) animal.getAnnotation(CharacteristicsOfAnimal.class);
         return steps.walkingDistance();
     }
 
     public List<BasicItem> goCreate(Class animal, int x, int y) throws NoSuchFieldException {
         ThreadLocalRandom randomPosition = ThreadLocalRandom.current();
-
+        if (!animal.isAnnotationPresent(CharacteristicsOfAnimal.class)){
+            throw new RuntimeException("It is not animal");
+        }
         int quantityOfAnimals = randomPosition.nextInt(1, animalQuantity(animal));
         List<BasicItem> listOfAnimals = new ArrayList<>();
         for (int i = 0; i < quantityOfAnimals; i++){
